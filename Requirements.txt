@@ -1,0 +1,4 @@
+pyspark==3.5.2
+requests
+flake8
+pytest
