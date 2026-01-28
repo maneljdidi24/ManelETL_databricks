@@ -1,36 +1,28 @@
-name: CI ETL PySpark
+name: CI PySpark ETL
 
 on:
   push:
-    branches: [ dev, main ]
+    branches: [ main, dev ]
   pull_request:
-    branches: [ main ]
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Récupérer le code du repo
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      # 2️⃣ Installer Python
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
 
-      # 3️⃣ Installer Docker
-      - name: Install Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install -r Requirements.txt
 
-      # 4️⃣ Construire l'image Docker
-      - name: Build Docker image
-        run: docker build -t manel-etl-pyspark .
-
-      # 5️⃣ Lancer le container pour tester l'ETL
-      - name: Run ETL in Docker
-        run: docker run --rm manel-etl-pyspark
+    - name: Run PySpark job
+      run: |
+        python app.py
