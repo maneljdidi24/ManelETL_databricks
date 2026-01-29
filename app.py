@@ -16,3 +16,4 @@ df.show()
 
 spark.stop()
 print("END SPARK")
+print("CD TEST OK 🚀")
