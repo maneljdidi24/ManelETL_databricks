@@ -14,10 +14,10 @@ ENV PYSPARK_DRIVER_PYTHON=python
 WORKDIR /app
 
 # Copier les dépendances
-COPY Requirements.txt .
+COPY requirements.txt .
 
 # Installer les libs Python
-RUN pip install --no-cache-dir -r Requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copier le code
 COPY app.py .

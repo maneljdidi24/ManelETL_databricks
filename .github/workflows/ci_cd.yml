@@ -1,28 +1,53 @@
-name: Deploy PySpark to Databricks
+name: CI/CD PySpark ETL
 
 on:
   push:
-    branches:
-      - main   # déclenchement sur la branche principale
+    branches: [ main, dev ]
+  pull_request:
 
 jobs:
-  build_and_deploy:
+  # --- JOB CI ---
+  ci:
+    name: CI - Build & Test
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run PySpark job
+        run: python app.py
+
+      - name: Run tests
+        run: pytest || echo "No tests found"
+
+  # --- JOB CD ---
+  cd:
+    name: CD - Deploy to Databricks
+    runs-on: ubuntu-latest
+    needs: ci   # <-- ATTEND QUE CI SE TERMINE AVEC SUCCÈS
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install dependencies
         run: pip install -r requirements.txt
-
-      - name: Run tests
-        run: pytest || echo "No tests found"
 
       - name: Build Docker image
         run: docker build -t manel-etl-pyspark .
@@ -34,15 +59,16 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker image
-        run: docker tag manel-etl-pyspark manel-etl/manel-etl-pyspark:latest
-      - run: docker push manel-etl/manel-etl-pyspark:latest
+        run: |
+          docker tag manel-etl-pyspark manel-etl/manel-etl-pyspark:latest
+          docker push manel-etl/manel-etl-pyspark:latest
 
       - name: Configure Databricks CLI
         run: |
           mkdir -p ~/.databrickscfg
           echo "[DEFAULT]" > ~/.databrickscfg
           echo "host = https://dbc-1397ac4c-6488.cloud.databricks.com" >> ~/.databrickscfg
-          echo "token = ${{ secrets.tmanel }}" >> ~/.databrickscfg
+          echo "token = ${{ secrets.TOKEN_DATABRICKS }}" >> ~/.databrickscfg
 
       - name: Deploy to Databricks Workspace
         run: |
