@@ -1,4 +1,19 @@
 pyspark==3.5.2
 requests
+
+# Qualité de code
 flake8
+black
+isort
+
+# Tests
 pytest
+pytest-cov
+
+# Data / utils
+pandas
+python-dotenv
+
+# Logs
+loguru
+
