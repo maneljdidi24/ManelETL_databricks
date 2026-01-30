@@ -60,10 +60,10 @@ jobs:
           DATABRICKS_HOST: https://dbc-1397ac4c-6488.cloud.databricks.com
           DATABRICKS_TOKEN: ${{ secrets.TOKEN_DATABRICKS }}
         run: |
-          databricks workspace mkdirs /Repos/jdidimanel1987@gmail.com/etl-pyspark
-          databricks workspace import -o app.py /Repos/jdidimanel1987@gmail.com/etl-pyspark/app.py
+          databricks workspace mkdirs /Repos/jdidimanel1987@gmail.com/ManelETL_databricks
+          databricks workspace import -o app.py /Repos/jdidimanel1987@gmail.com/ManelETL_databricks/app.py
           # Crée le repo GitHub (si nécessaire)
-          databricks repos create --url https://github.com/jdidimanel/etl-pyspark.git --provider github
+          databricks repos create --url https://github.com/jdidimanel/ManelETL_databricks.git --provider github
           # Import du script dans le repo
-          databricks workspace import -o app.py /Repos/jdidimanel1987@gmail.com/etl-pyspark/app.py
+          databricks workspace import -o app.py /Repos/jdidimanel1987@gmail.com/ManelETL_databricks/app.py
 
