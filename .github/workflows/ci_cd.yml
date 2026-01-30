@@ -63,5 +63,3 @@ jobs:
         run: |
           # Crée le repo GitHub dans Databricks (si pas déjà créé)
           databricks repos create --url https://github.com/maneljdidi24/ManelETL_databricks.git --provider github
-          # Import du script app.py directement dans le repo lié
-          databricks workspace import -o app.py /Repos/maneljdidi24/ManelETL_databricks/app.py
