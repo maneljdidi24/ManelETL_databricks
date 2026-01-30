@@ -62,5 +62,8 @@ jobs:
         run: |
           databricks workspace mkdirs /Repos/jdidimanel1987@gmail.com/etl-pyspark
           databricks workspace import -o app.py /Repos/jdidimanel1987@gmail.com/etl-pyspark/app.py
-
+          # Crée le repo GitHub (si nécessaire)
+          databricks repos create --url https://github.com/jdidimanel/etl-pyspark.git --provider github
+          # Import du script dans le repo
+          databricks workspace import -o app.py /Repos/jdidimanel1987@gmail.com/etl-pyspark/app.py
 
