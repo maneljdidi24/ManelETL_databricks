@@ -19,6 +19,7 @@ print("END SPARK")
 print("CD TEST OK 🚀")
 print("it's ok now")
 print("ya allah")
+print("ya rab")
 
 
 
