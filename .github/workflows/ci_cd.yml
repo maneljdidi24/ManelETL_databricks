@@ -55,12 +55,10 @@ jobs:
       - name: Install Databricks CLI
         run: pip install databricks-cli
 
-      - name: Configure Databricks CLI
-        run: |
-          echo "[DEFAULT]" > ~/.databrickscfg
-          echo "host = https://dbc-1397ac4c-6488.cloud.databricks.com" >> ~/.databrickscfg
-          echo "token = ${{ secrets.TOKEN_DATABRICKS }}" >> ~/.databrickscfg
-
       - name: Deploy to Databricks Workspace
+        env:
+          DATABRICKS_HOST: https://dbc-1397ac4c-6488.cloud.databricks.com
+          DATABRICKS_TOKEN: ${{ secrets.TOKEN_DATABRICKS }}
         run: |
-          databricks workspace mkdirs /Repos
+          databricks workspace mkdirs /Repos/jdidimanel1987@gmail.com/etl-pyspark
+          databricks workspace import -o app.py /Repos/jdidimanel1987@gmail.com/etl-pyspark/app.py
