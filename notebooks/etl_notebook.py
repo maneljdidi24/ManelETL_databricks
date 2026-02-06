@@ -13,8 +13,12 @@ spark = (
 
 print("✅ SparkSession créée")
 
+# Uploader ton fichier local vers DBFS
+databricks fs cp "C:/Users/manel/Desktop/ManelETL_databricks/manel.csv" "dbfs:/FileStore/manel_etl/manel.csv"
+
+
 # 2️⃣ Lire le fichier CSV source
-input_path = "data/input.csv"  # chemin vers ton fichier source
+input_path = "data/manel.csv"  # chemin vers ton fichier source
 df = spark.read.csv(input_path, header=True, inferSchema=True)
 
 print("✅ Fichier CSV lu")
